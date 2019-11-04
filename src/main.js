@@ -10,8 +10,8 @@ const EventMonitor = {
     emitter.emit = function (event, ...args) {
       if (EventMonitor.silent) return undefined;
       var end = Date.now();
-      var diff = _start === null ? 0 : end - _start;
-      _start = end;
+      var diff = EventMonitor._start === null ? 0 : end - EventMonitor._start;
+      EventMonitor._start = end;
 
       if (args.length > 0) {
         if (Array.isArray(args)) args = args.join(', ');
