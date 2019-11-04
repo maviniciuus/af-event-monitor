@@ -1,3 +1,5 @@
+const { SuperConsole } = require('af-super-console');
+
 let start = null;
 const EventMonitor = function (emitter, type) {
   var emit = emitter && emitter.emit;
@@ -9,18 +11,25 @@ const EventMonitor = function (emitter, type) {
     start = end;
 
     if (args.length > 0) {
-      console.error(
-        chalk.yellow((type || emitter.constructor.name) + ':'),
-        chalk.white(event),
-        chalk.gray('(' + args.join(', ') + ')'),
-        chalk.red('+' + diff + 'ms'),
-      );
+      if (Array.isArray(args)) args = args.join(', ');
+      if (typeof args === 'object') args = JSON.stringify(args);
+      SuperConsole.groupLog({
+        groupColor: 'yellow',
+        reasonColor: 'grey',
+        messageColor: 'cyan',
+        group: type || emitter.constructor.name,
+        message: event,
+        reason: `Duração: ${diff}ms - Argumentos: (${args})`,
+      });
     } else {
-      console.error(
-        chalk.yellow((type || emitter.constructor.name) + ':'),
-        chalk.white(event),
-        chalk.red('+' + diff + 'ms'),
-      );
+      SuperConsole.groupLog({
+        groupColor: 'yellow',
+        reasonColor: 'magenta',
+        messageColor: 'cyan',
+        group: type || emitter.constructor.name,
+        message: event,
+        reason: `Duração: ${diff}ms`,
+      })
     }
 
     return emit.apply(this, arguments);
