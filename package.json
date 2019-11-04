@@ -1,6 +1,6 @@
 {
   "name": "af-event-monitor",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Lib que a partir de um EventEmitter, exibe mensagens amigáveis no console com a duração, o nome e os argumentos.",
   "main": "lib/main.js",
   "scripts": {
