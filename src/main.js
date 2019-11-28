@@ -8,7 +8,6 @@ const EventMonitor = {
     if (typeof emit !== 'function') return;
 
     emitter.emit = function (event, ...args) {
-      if (EventMonitor.silent) return undefined;
       var end = Date.now();
       var diff = EventMonitor._start === null ? 0 : end - EventMonitor._start;
       EventMonitor._start = end;
@@ -16,6 +15,7 @@ const EventMonitor = {
       if (args.length > 0) {
         if (Array.isArray(args)) args = args.join(', ');
         if (typeof args === 'object') args = JSON.stringify(args);
+        if (EventMonitor.silent) return undefined;
         SuperConsole.groupLog({
           groupColor: 'yellow',
           reasonColor: 'grey',
@@ -25,6 +25,7 @@ const EventMonitor = {
           reason: `Duração: ${diff}ms - Argumentos: (${args})`,
         });
       } else {
+        if (EventMonitor.silent) return undefined;
         SuperConsole.groupLog({
           groupColor: 'yellow',
           reasonColor: 'magenta',
@@ -32,7 +33,7 @@ const EventMonitor = {
           group: type || emitter.constructor.name,
           message: event,
           reason: `Duração: ${diff}ms`,
-        })
+        });
       }
 
       return emit.apply(this, arguments);
