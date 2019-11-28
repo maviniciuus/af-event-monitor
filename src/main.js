@@ -4,17 +4,21 @@ const EventMonitor = {
   _start: null,
   silent: false,
   debug(emitter, type) {
-    var emit = emitter && emitter.emit;
+    const emit = emitter && emitter.emit;
     if (typeof emit !== 'function') return;
 
-    emitter.emit = function (event, ...args) {
-      var end = Date.now();
-      var diff = EventMonitor._start === null ? 0 : end - EventMonitor._start;
+    // eslint-disable-next-line no-param-reassign
+    emitter.emit = (event, ...args) => {
+      const end = Date.now();
+      const diff = EventMonitor._start === null ? 0 : end - EventMonitor._start;
       EventMonitor._start = end;
 
       if (args.length > 0) {
+        // eslint-disable-next-line no-param-reassign
         if (Array.isArray(args)) args = args.join(', ');
+        // eslint-disable-next-line no-param-reassign
         if (typeof args === 'object') args = JSON.stringify(args);
+
         if (EventMonitor.silent) return undefined;
         SuperConsole.groupLog({
           groupColor: 'yellow',
@@ -36,9 +40,10 @@ const EventMonitor = {
         });
       }
 
+      // eslint-disable-next-line prefer-rest-params
       return emit.apply(this, arguments);
     };
-  }
+  },
 };
 
 module.exports = EventMonitor;
