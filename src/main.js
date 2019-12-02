@@ -19,25 +19,27 @@ const EventMonitor = {
         // eslint-disable-next-line no-param-reassign
         if (typeof args === 'object') args = JSON.stringify(args);
 
-        if (EventMonitor.silent) return undefined;
-        SuperConsole.groupLog({
-          groupColor: 'yellow',
-          reasonColor: 'grey',
-          messageColor: 'cyan',
-          group: type || emitter.constructor.name,
-          message: event,
-          reason: `Duração: ${diff}ms - Argumentos: (${args})`,
-        });
+        if (!EventMonitor.silent) {
+          SuperConsole.groupLog({
+            groupColor: 'yellow',
+            reasonColor: 'grey',
+            messageColor: 'cyan',
+            group: type || emitter.constructor.name,
+            message: event,
+            reason: `Duração: ${diff}ms - Argumentos: (${args})`,
+          });
+        }
       } else {
-        if (EventMonitor.silent) return undefined;
-        SuperConsole.groupLog({
-          groupColor: 'yellow',
-          reasonColor: 'magenta',
-          messageColor: 'cyan',
-          group: type || emitter.constructor.name,
-          message: event,
-          reason: `Duração: ${diff}ms`,
-        });
+        if (EventMonitor.silent) {
+          SuperConsole.groupLog({
+            groupColor: 'yellow',
+            reasonColor: 'magenta',
+            messageColor: 'cyan',
+            group: type || emitter.constructor.name,
+            message: event,
+            reason: `Duração: ${diff}ms`,
+          });
+        }
       }
 
       // eslint-disable-next-line prefer-rest-params
