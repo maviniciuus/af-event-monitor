@@ -29,17 +29,15 @@ const EventMonitor = {
             reason: `Duração: ${diff}ms - Argumentos: (${args})`,
           });
         }
-      } else {
-        if (EventMonitor.silent) {
-          SuperConsole.groupLog({
-            groupColor: 'yellow',
-            reasonColor: 'magenta',
-            messageColor: 'cyan',
-            group: type || emitter.constructor.name,
-            message: event,
-            reason: `Duração: ${diff}ms`,
-          });
-        }
+      } else if (EventMonitor.silent) {
+        SuperConsole.groupLog({
+          groupColor: 'yellow',
+          reasonColor: 'magenta',
+          messageColor: 'cyan',
+          group: type || emitter.constructor.name,
+          message: event,
+          reason: `Duração: ${diff}ms`,
+        });
       }
 
       // eslint-disable-next-line prefer-rest-params
